@@ -9,3 +9,5 @@
 早期设计方法还参考过 frontend-design、design-engine、impeccable、design-prototype-expert、ui-ux-design、web-design-guidelines、ardot-design-core、taste-check、frontend-dev、miora-brand-design 和 landing-page-generator。部分早期机制已被后续规则替换；这份历史来源清单不是当前执行标准，也不是对这些名称所对应全部实现的许可声明。
 
 Nielsen启发式、无障碍和中文排版原则作为检查视角使用；本项目自定义评分不等于官方认证。引用材料的许可归原权利人；本包尚未指定独立开源许可证。
+
+科学传播的作品和机制参照及共享示例来源见 [科学传播参考](references/science-communication.md) 与 [模板数据](assets/science-communication/spec.json)。模板为本项目生成的表达示例，不代表第三方背书。

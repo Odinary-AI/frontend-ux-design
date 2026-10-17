@@ -5,7 +5,7 @@ description: >
 
   Use when designing, implementing, reviewing, or refining frontend UI/UX, landing pages, dashboards, web interactions, or design systems; also for 中文界面设计、设计评审、AI 味检测、视觉走查 and extracting design tokens. Not for backend-only work or generic code review.
 metadata:
-  version: 1.10.0-dev
+  version: 1.11.0-dev
   author: 普通AI星球（公众号 & SkillHub）· Ordinary-AI（GitHub）
 ---
 
@@ -61,7 +61,7 @@ metadata:
 - 色彩、字体、间距、动效的权威来源和实际用法；文档与实现冲突时指出双方，不擅自把偏离当新规范。
 - 可复用的图片、图标、字体和品牌素材。给了设计稿时，将设计节点/视觉目标对应到项目组件、token 和资产；截图是对照，不是拿来替代整个界面的图片。
 
-发现规范后，D2 变为引用及补充缺口。提取出的临时记录不能静默覆盖项目原有权威。
+发现规范后，D2 变为引用及补充缺口；按[规范消费与更新](references/design-contract.md#规范消费与更新)确定本次来源和适用范围。提取出的临时记录不能静默覆盖项目原有权威。
 
 ## D1：形成方向（仅方向尚未确定时）
 
@@ -72,6 +72,8 @@ metadata:
 出方向后对照 brief 再检验：选择是否来源于题材，结构是否表达信息，编号是否真的有顺序，装饰是否有作用。营销/展示可集中形成一处记忆点；工具/阅读以任务效率、熟悉度和理解为先，不要求“10% 破格”或截图传播价值。
 
 方向已完整确定时跳过 D1；仅指定配色等部分要求时，保留这些选择，只处理仍开放的布局/交互维度。用户已授权自主选择时不新增确认门槛；否则对需要选择的方向让用户选定后进入 D2。需要构图参照时，按设计问题查[方向案例](references/design-directions.md)，将适用机制转译为当前内容；不从行业名称自动选风格，视觉示例只用于仍开放的维度。
+
+学术研究交流或面向公众的科普内容需要具体风格/模板参照时，读[科学传播参考](references/science-communication.md)。它提供共享表达与网页/演示资产，不改变工作模式或既有规范优先级；纯演示文件制作沿可用演示工具。
 
 ## D2：建立或对齐设计契约
 
@@ -88,6 +90,8 @@ metadata:
 - **素材**：优先用户和项目资产；生成工具可用且任务需要时再生成。工具缺失可用明确标注的本地占位或请求关键素材，不阻塞无关工作，不声称占位已完成。
 
 中文界面读 [中文排版](references/typography-cn.md)；交互工作读 [交互规则](references/interaction.md)；动效工作读 [动效规则](references/motion.md)；涉及图片、音视频或外部设计素材时读 [素材交付](references/assets.md)。[效果菜单](references/effects-menu.md) 只供有具体表达需要时选取，不是待办清单。
+
+新建展开/收起交互且项目没有适用组件时，可参照[原生展开范例](assets/disclosure-example.html)的状态与清理机制；按[范例边界](references/motion.md#展开范例的消费)转译到项目，不默认引入其外观或重写现有组件。
 
 ## D4：验证与交付
 

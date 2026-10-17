@@ -206,10 +206,31 @@ def check_placeholder_urls(text, findings):
                          f'图片服务/占位域名：{m.group(0)}（需确认实际用途）'))
 
 def check_bare_outline(text, findings):
-    m = re.search(r'outline\s*:\s*(none|0)\b', text, re.I)
-    if m and ':focus-visible' not in text and 'focus-visible' not in text:
-        findings.append(('AUTO', '焦点', line_of(text, m.start()),
-                         'outline:none/0 且该文件无 focus-visible 字样；需核对其他焦点样式'))
+    # 仅在可定位的普通规则块中给同一宿主的显式焦点 outline 降级。
+    # 不解析级联；复杂选择器/外部样式仍留给运行核对。
+    blocks = list(re.finditer(r'([^{}]+)\{([^{}]*)\}', text))
+    visible = set()
+    def host(selector):
+        if not re.fullmatch(r'(?:[.#][\w-]+|[a-zA-Z][\w-]*)(?::focus(?:-visible)?)?', selector):
+            return None
+        return re.sub(r':focus(?:-visible)?$', '', selector)
+    for block in blocks:
+        selectors = [x.strip() for x in block.group(1).split(',')]
+        outlines = re.findall(r'(?<![\w-])outline\s*:\s*([^;}]+)', block.group(2), re.I)
+        visible_outline = (re.fullmatch(r'([0-9]*\.?[0-9]+)(px|em|rem)\s+(solid|dashed|dotted|double)\s+(#[0-9a-f]{6}|#[0-9a-f]{3}|red|black|white|blue|green|orange|purple|yellow|navy|teal|gray|grey|silver|maroon|aqua|lime|fuchsia|olive|rebeccapurple)(?:\s*!important)?', outlines[-1].strip(), re.I) if outlines else None)
+        if visible_outline and float(visible_outline.group(1)) > 0 and visible_outline.group(4).lower() not in ('transparent', 'none', 'currentcolor', 'inherit', 'initial', 'unset'):
+            for selector in selectors:
+                if ':focus' in selector and host(selector):
+                    visible.add(host(selector))
+    for m in re.finditer(r'(?<![\w-])outline\s*:\s*(none|0)\b', text, re.I):
+        block = next((b for b in blocks if b.start(2) <= m.start() < b.end(2)), None)
+        hosts = [host(x.strip()) for x in block.group(1).split(',')] if block else []
+        associated = bool(hosts) and all(h is not None and h in visible for h in hosts)
+        level = 'CHECK' if associated else 'AUTO'
+        message = ('outline 移除且找到同一简单宿主的焦点 outline；需核对实际级联与可见性'
+                   if associated else 'outline:none/0；未确认同一对象的焦点替代，需核对实际样式')
+        findings.append((level, '焦点', line_of(text, m.start()), message))
+
 
 def check_emoji(text, findings):
     in_tag = False
@@ -286,11 +307,20 @@ FONT_VALUE_RE = re.compile(r'[0-9.]+(?:px|rem|em)')
 
 def norm_color(raw):
     raw = raw.strip().lower()
-    if raw.startswith('#'):
-        rgb = parse_hex(raw)
-        if rgb:
-            return '#%02x%02x%02x' % tuple(round(c * 255) for c in rgb)
-        return raw
+    rgb = parse_hex(raw) if raw.startswith('#') else None
+    if raw.startswith(('rgb(', 'rgba(')):
+        body = raw[raw.index('(') + 1:-1]
+        try:
+            rgb = parse_rgb_func(body)
+        except (ValueError, IndexError):
+            rgb = None
+    if rgb and all(0 <= c <= 1 for c in rgb):
+        channels = tuple(c * 255 for c in rgb)
+        normalized = ('#%02x%02x%02x' % tuple(round(c) for c in channels)
+                      if all(abs(c - round(c)) < 1e-9 for c in channels)
+                      else 'rgb:' + ','.join(format(c, '.12g') for c in channels))
+        alpha = color_alpha(raw)
+        return normalized if alpha == 1 else normalized + '/alpha=' + format(alpha, '.8g')
     return re.sub(r'\s+', '', raw)
 
 DATA_URI_RE = re.compile(r'url\(["\']?data:[^)]*\)?', re.I)

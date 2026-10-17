@@ -2,7 +2,7 @@
 
 依据用户任务、页面用途和既有设计系统，完成前端 UX/UI 设计、局部迭代、只读评审与设计系统提取的 Agent Skill。
 
-当前公开版本：**1.10.0-dev（预发布）**。产品入口为 [SKILL.md](SKILL.md)。
+当前公开版本：**1.11.0-dev（开发版，仓库更新）**。产品入口为 [SKILL.md](SKILL.md)。
 
 ## 适合谁
 
@@ -10,13 +10,13 @@
 
 ## 快速开始
 
-下载本仓库 Release 中的 Skill ZIP，或克隆产品包：
+克隆当前产品包（旧 Release 仍对应 1.10.0-dev）：
 
 ```sh
 git clone https://github.com/Odinary-AI/frontend-ux-design.git
 ```
 
-将包含 `SKILL.md` 的完整目录放入所用工具支持的 Skill 安装位置，保留 `references/` 与 `scripts/`。加载方式以该工具的当前文档为准。这个包不是网页应用，没有应用服务器或依赖安装步骤。
+将包含 `SKILL.md` 的完整目录放入所用工具支持的 Skill 安装位置，保留 `references/`、`assets/` 与 `scripts/`。加载方式以该工具的当前文档为准。这个包不是网页应用，没有应用服务器或依赖安装步骤。
 
 示例请求：
 
@@ -49,6 +49,7 @@ python3 scripts/design-lint.py /path/to/site --tokens /path/to/tokens.css
 |---|---|
 | SKILL.md | 模式、范围与D0–D4工作流程 |
 | references/ | 设计契约、路径、方向、数据、中文排版、交互、动效、素材和评审参考 |
+| assets/ | 设计组合、展开范例及科学传播网页/PPTX模板 |
 | scripts/design-lint.py | 零依赖静态模式扫描器 |
 | README.md / CHANGELOG.md / SOURCES.md | 使用说明、公开版本记录与方法来源说明 |
 

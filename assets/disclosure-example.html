@@ -1,0 +1,33 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>原生展开参考</title>
+<style>*{box-sizing:border-box}body{font-family:system-ui,"PingFang SC",sans-serif;line-height:1.75;color:#17212c;background:#f5f7fa;margin:0}main{max-width:760px;margin:auto;padding:32px 20px}h1{line-height:1.3}button{font:inherit;text-align:left;border:1px solid #748295;background:white;color:#17212c;padding:12px 16px;min-height:44px;width:100%;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #174ea6;outline-offset:3px}.disclosure{margin:24px 0}.panel[hidden]{display:none}.content{padding:20px;background:#fff;border:1px solid #b6c0cd;border-top:0;overflow-wrap:anywhere}.panel.animating{overflow:hidden}p{margin:0 0 12px}.panel a{color:#174ea6}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}</style>
+<main><h1>展开与收起</h1><p>自编参考。按钮状态先更新，动画只表达变化；两个实例独立。无脚本时内容保持可读。开发测试可调用实例的 destroy 清理，项目中将其接入组件卸载生命周期。</p>
+<section class="disclosure" id="first"><h2><button type="button" aria-expanded="true" aria-controls="panel-first">查看北窗的观察说明</button></h2><div class="panel" id="panel-first"><div class="content"><p>先观察光的位置，再描述它与墙面的关系。</p><a href="#second">继续查看走廊</a></div></div></section>
+<section class="disclosure" id="second"><h2><button type="button" aria-expanded="true" aria-controls="panel-second">查看走廊的观察说明</button></h2><div class="panel" id="panel-second"><div class="content"><p>用连续边界表达方向；长内容应完整可达。</p><a href="#first">返回北窗</a></div></div></section></main>
+<script>
+function mountDisclosure(root) {
+  const button=root.querySelector('button'),panel=root.querySelector('.panel'),content=root.querySelector('.content');
+  const media=matchMedia('(prefers-reduced-motion: reduce)');
+  let opened=false,animation=null,revision=0,frame=0,destroyed=false;
+  function settle() { panel.hidden=!opened;panel.style.height='';panel.classList.remove('animating'); }
+  function cancel() { cancelAnimationFrame(frame);frame=0;revision++;if(animation){animation.cancel();animation=null;} }
+  function move(next) {
+    if(destroyed)return;
+    const from=panel.hidden?0:panel.getBoundingClientRect().height;
+    cancel();opened=next;button.setAttribute('aria-expanded',String(opened));
+    if(!opened && panel.contains(document.activeElement))button.focus();
+    panel.hidden=false;
+    if(media.matches || !panel.animate){settle();return;}
+    const to=opened?content.getBoundingClientRect().height:0;
+    const current=revision;panel.classList.add('animating');
+    animation=panel.animate([{height:from+'px'},{height:to+'px'}],{duration:220,easing:'cubic-bezier(.16,1,.3,1)',fill:'both'});
+    animation.finished.then(()=>{if(current!==revision || destroyed)return;animation=null;panel.getAnimations().forEach(a=>a.cancel());settle();}).catch(()=>{});
+  }
+  const click=()=>move(!opened);
+  const preference=()=>{cancel();settle();};
+  button.addEventListener('click',click);media.addEventListener('change',preference);
+  const observer=new ResizeObserver(()=>{if(animation && opened){cancelAnimationFrame(frame);const expected=revision;frame=requestAnimationFrame(()=>{frame=0;if(!destroyed && opened && expected===revision)move(true);});}});
+  observer.observe(content);button.setAttribute('aria-expanded','false');panel.hidden=true;
+  return {destroy(){if(destroyed)return;cancel();cancelAnimationFrame(frame);observer.disconnect();button.removeEventListener('click',click);media.removeEventListener('change',preference);settle();destroyed=true;}};
+}
+window.disclosureExamples=Array.from(document.querySelectorAll('.disclosure'),mountDisclosure);
+</script></html>
