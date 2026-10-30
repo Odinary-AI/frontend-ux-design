@@ -11,3 +11,5 @@
 Nielsen启发式、无障碍和中文排版原则作为检查视角使用；本项目自定义评分不等于官方认证。引用材料的许可归原权利人；本包尚未指定独立开源许可证。
 
 科学传播的作品和机制参照及共享示例来源见 [科学传播参考](references/science-communication.md) 与 [模板数据](assets/science-communication/spec.json)。模板为本项目生成的表达示例，不代表第三方背书。
+
+精选外部资源及其反馈来源见[按需资源索引](references/resource-catalog.md)。仅提供引用与采用边界，未捆绑第三方素材或组件源码。

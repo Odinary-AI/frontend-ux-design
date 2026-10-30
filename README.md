@@ -32,6 +32,8 @@ git clone https://github.com/Odinary-AI/frontend-ux-design.git
 - **中文与数据界面**：关注中文排版、精确读数、零值和缺失、筛选范围，以及必要的窄屏操作。
 - **评审与提取**：默认只审不改；区分静态线索、实际看图、运行操作和未验证项。
 
+需要外部参照、组件或素材时，可按[精选资源](references/resource-catalog.md)查阅七项来源；优先复用项目已有系统，不默认安装第三方依赖或MCP。
+
 ## 可选静态检查器
 
 随包提供只用 Python 标准库的 HTML/CSS 文本扫描器，需 Python 3.9 或更新版本：
