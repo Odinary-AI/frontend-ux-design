@@ -13,3 +13,5 @@ Nielsen启发式、无障碍和中文排版原则作为检查视角使用；本�
 科学传播的作品和机制参照及共享示例来源见 [科学传播参考](references/science-communication.md) 与 [模板数据](assets/science-communication/spec.json)。模板为本项目生成的表达示例，不代表第三方背书。
 
 精选外部资源及其反馈来源见[按需资源索引](references/resource-catalog.md)。仅提供引用与采用边界，未捆绑第三方素材或组件源码。
+
+本次设计方法融合参考 [oil-ui 快照](https://github.com/oil-oil/oil-ui/tree/40ae49a)，并交叉核对 [Carbon 间距](https://www.carbondesignsystem.com/building-blocks/foundations/spacing/overview) 与 [IBM 图标设计](https://www.ibm.com/design/language/iconography/ui-icons/design/)。方法已重新组织并使用自编示例。
