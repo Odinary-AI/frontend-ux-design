@@ -2,7 +2,7 @@
 
 依据用户任务、页面用途和既有设计系统，完成前端 UX/UI 设计、局部迭代、只读评审与设计系统提取的 Agent Skill。
 
-当前公开版本：**1.11.0-dev（开发版，仓库更新）**。产品入口为 [SKILL.md](SKILL.md)。
+当前公开版本：**1.11.0-dev（开发版预发布）**。产品入口为 [SKILL.md](SKILL.md)。
 
 ## 适合谁
 
@@ -10,7 +10,7 @@
 
 ## 快速开始
 
-克隆当前产品包（旧 Release 仍对应 1.10.0-dev）：
+从 [GitHub Release](https://github.com/Odinary-AI/frontend-ux-design/releases/tag/v1.11.0-dev) 下载完整产品包，或克隆仓库：
 
 ```sh
 git clone https://github.com/Odinary-AI/frontend-ux-design.git
